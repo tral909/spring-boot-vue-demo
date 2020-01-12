@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Vue Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+</head>
+<body>
+<h3>Sarafan</h3>
+<div id="app"></div>
+<script>
+    var messageApi = Vue.resource('/message{/id}');
+
+    Vue.component('item-list', {
+            props: ['messageList'],
+            template:
+                '<div>' +
+                '<div v-for="msg in messageList"><i>({{ msg.id }})</i> {{ msg.text }}</div>' +
+                '</div>',
+            created: function () {
+                messageApi.get()
+                    .then(result => result.json()
+                    .then(data => data.forEach(msg => this.messageList.push(msg))))
+            }
+        }
+    );
+
+    var app = new Vue({
+        el: '#app',
+        template: '<item-list :messageList="messages"/>',
+        data: {
+            messages: []
+        }
+    })
+</script>
+</body>
+</html>
