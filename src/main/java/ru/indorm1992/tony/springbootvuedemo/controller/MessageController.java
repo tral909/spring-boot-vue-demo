@@ -19,16 +19,18 @@ public class MessageController {
     }
 
     @PostMapping
-    public void createMessage(@RequestBody Map<String, String> newMessage) {
-        int size = messages.size();
-        newMessage.put("id", String.valueOf(++size));
+    public Map<String, String> createMessage(@RequestBody Map<String, String> newMessage) {
+        long counter = Long.valueOf(messages.get(messages.size() - 1).get("id"));
+        newMessage.put("id", String.valueOf(++counter));
         messages.add(newMessage);
+        return newMessage;
     }
 
     @PutMapping("{id}")
-    public void updateMessage(@PathVariable String id, @RequestBody Map<String, String> newMessage) {
-        Map<String, String> foundMess = findMessage(id);
-        foundMess.put("text", newMessage.get("text"));
+    public Map<String, String> updateMessage(@PathVariable String id, @RequestBody Map<String, String> newMessage) {
+        Map<String, String> updateMess = findMessage(id);
+        updateMess.put("text", newMessage.get("text"));
+        return updateMess;
     }
 
     @DeleteMapping("{id}")
