@@ -65,11 +65,6 @@ Vue.component('message-block', {
         editMessage(message) {
             this.message = message
         }
-    },
-    created: function () {
-        messageApi.get()
-            .then(result => result.json()
-                .then(data => data.forEach(msg => this.messageList.push(msg))))
     }
 })
 
@@ -102,11 +97,21 @@ var app = new Vue({
     el: '#app',
     template:
         '<div>' +
+        '<div v-if="!profile">Необходимо авторизоваться через <a href="/login">Google</a></div>' +
+        '<div v-else>' +
+        '<div>{{ profile.name }}&nbsp;<a href="/logout">Выйти</a></div>' +
         '<message-block :messageList="messages"/>' +
+        '</div>' +
         '</div>',
     data() {
         return {
-            messages: []
+            messages: frontendData.messages,
+            profile: frontendData.profile
         }
+    },
+    created: function () {
+//        messageApi.get()
+//           .then(result => result.json()
+//               .then(data => data.forEach(msg => this.messages.push(msg))))
     }
 })
