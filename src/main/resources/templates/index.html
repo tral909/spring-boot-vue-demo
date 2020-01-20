@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>Spring Vue Demo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
     </script>
 </head>
 <body>
+<div style="padding: 10px;">
 <h3>Sarafan</h3>
-<div id="app"></div>
-<script src="js/main.js"></script>
+<div id="app" ></div>
+</div>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
 </body>
 </html>

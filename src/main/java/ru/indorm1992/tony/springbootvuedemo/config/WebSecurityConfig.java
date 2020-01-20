@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.indorm1992.tony.springbootvuedemo.domain.User;
 import ru.indorm1992.tony.springbootvuedemo.repo.UserDetailsRepo;
 
@@ -26,33 +24,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().logout().logoutSuccessUrl("/").permitAll()
 				.and()
 				.csrf().disable();
-	}
-
-//	@Bean
-//	public CorsConfigurationSource corsConfigurationSource() {
-//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		CorsConfiguration corsConf = new CorsConfiguration();
-//		corsConf.addAllowedMethod("GET");
-//		corsConf.addAllowedMethod("POST");
-//		corsConf.addAllowedMethod("PUT");
-//		corsConf.addAllowedMethod("DELETE");
-//		corsConf.addAllowedOrigin("http://localhost:5500");
-//		source.registerCorsConfiguration("/**", corsConf);
-//		return source;
-//	}
-
-	// Настройка CORS для LiveReload в VSC (когда фронт разрабатывается в VSC) - IDEA CE не поддерживает js файлы
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry
-						.addMapping("/**")
-						.allowedMethods("*")
-						.allowedOrigins("http://localhost:5500");
-			}
-		};
 	}
 
 	@Bean
@@ -77,4 +48,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			return userDetailsRepo.save(user);
 		};
 	}
+
+//  Настройка CORS для LiveReload в VSC (когда фронт разрабатывается в VSC) - IDEA CE не поддерживает js файлы
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry
+//						.addMapping("/**")
+//						.allowedMethods("*")
+//						.allowedOrigins("http://localhost:5500");
+//			}
+//		};
+//	}
+//
+
+//	Вариант 2
+//	@Bean
+//	public CorsConfigurationSource corsConfigurationSource() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		CorsConfiguration corsConf = new CorsConfiguration();
+//		corsConf.addAllowedMethod("GET");
+//		corsConf.addAllowedMethod("POST");
+//		corsConf.addAllowedMethod("PUT");
+//		corsConf.addAllowedMethod("DELETE");
+//		corsConf.addAllowedOrigin("http://localhost:5500");
+//		source.registerCorsConfiguration("/**", corsConf);
+//		return source;
+//	}
+
+
 }
