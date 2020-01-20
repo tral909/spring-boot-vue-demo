@@ -6,14 +6,7 @@
 </template>
 
 <script>
-    function getIndex(list, id) {
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].id === id) {
-                return i
-            }
-        }
-        return -1
-    }
+    import { sendMessage } from 'util/ws'
 
     export default {
         props: ['messageList', 'messageAttr'],
@@ -32,9 +25,13 @@
         },
         methods: {
             save() {
-                if (this.text.trim() == '') return; // TODO заменить на валидацию
+                if (this.text.trim() == '') return // TODO заменить на валидацию
 
-                const message = { text: this.text }
+                sendMessage({id: this.id, text: this.text})
+                this.id = ''
+                this.text = ''
+
+                /*const message = { text: this.text }
                 if (this.id) {
                     this.$resource('http://localhost:9000/message{/id}').update({id: this.id}, message)
                         .then(result => result.json()
@@ -48,7 +45,7 @@
                             .then(data => this.messageList.push(data)))
                 }
                 this.id = ''
-                this.text = ''
+                this.text = ''*/
             }
         }
     }
