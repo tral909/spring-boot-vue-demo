@@ -1,8 +1,11 @@
 <template>
-    <div style="margin-top: 10px;">
-        <input type="text" v-model="text" style="margin-right: 10px;" placeholder="Текст сообщения"/>
-        <input type="button" @click="save" value="Сохранить"/>
-    </div>
+    <v-layout row class="ma-1">
+        <v-text-field
+            label="Новое сообщение"
+            placeholder="Текст сообщения"
+            v-model="text" />
+        <v-btn @click="save">Сохранить</v-btn>
+    </v-layout>
 </template>
 
 <script>

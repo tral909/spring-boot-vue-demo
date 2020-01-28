@@ -1,11 +1,23 @@
 <template>
-    <div>
-        <div v-if="!profile">Необходимо авторизоваться через <a href="/login">Google</a></div>
-        <div v-else>
-            <div>{{ profile.name }}&nbsp;<a href="/logout" @click="wsDisconnect">Выйти</a></div>
-            <message-block :messageList="messages"/>
-        </div>
-    </div>
+    <v-app>
+        <v-app-bar app>
+            <v-toolbar-title>Sarafan</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <span v-if="profile">{{ profile.name }}</span>
+            <v-btn icon v-if="profile" href="/logout" @click="wsDisconnect">
+                <v-icon>mdi-exit-to-app</v-icon>
+            </v-btn>
+        </v-app-bar>
+        <v-content>
+            <v-container v-if="!profile">
+                Необходимо авторизоваться через
+                <a href="/login">Google</a>
+            </v-container>
+            <v-container v-if="profile">
+                <message-block :messageList="messages"/>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
@@ -39,6 +51,8 @@
             }
         }
     }
+
+
 </script>
 
 <style>

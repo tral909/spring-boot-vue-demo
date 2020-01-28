@@ -1,11 +1,15 @@
 <template>
-    <div>
-        <i>({{ msg.id }})</i> {{ msg.text }}
-        <span style="position: absolute; right: 0;">
-            <input type="button" @click="edit" value="Редактировать"/>
-            <input type="button" @click="del" value="X"/>
-        </span>
-    </div>
+    <v-card>
+        <v-card-text primary-title>
+            <i>({{ msg.id }})</i> {{ msg.text }}
+        </v-card-text>
+        <v-card-actions>
+            <v-btn @click="edit" small text rounded>Редактировать</v-btn>
+            <v-btn icon @click="del" value="X">
+                <v-icon>mdi-delete</v-icon>
+            </v-btn>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script>
@@ -20,8 +24,9 @@
             }
         }
     }
+
 </script>
 
 <style>
-    
+
 </style>
