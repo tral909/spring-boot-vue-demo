@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import { sendMessage } from 'util/ws'
+    import messagesApi from 'api/messages'
 
     export default {
         props: ['messageList', 'messageAttr'],
@@ -29,26 +29,29 @@
         methods: {
             save() {
                 if (this.text.trim() == '') return // TODO заменить на валидацию
-
-                sendMessage({id: this.id, text: this.text})
-                this.id = ''
-                this.text = ''
-
-                /*const message = { text: this.text }
+                const message = { id: this.id, text: this.text }
                 if (this.id) {
-                    this.$resource('http://localhost:9000/message{/id}').update({id: this.id}, message)
+                    messagesApi.update(message)
                         .then(result => result.json()
                             .then(data => {
-                                const index = getIndex(this.messageList, data.id)
+                                const index = this.messageList.findIndex(item => item.id === data.id)
                                 this.messageList.splice(index, 1, data)
                             }))
                 } else {
-                    this.$resource('http://localhost:9000/message{/id}').save(message)
+                    messagesApi.add(message)
                         .then(result => result.json()
-                            .then(data => this.messageList.push(data)))
+                            .then(data => {
+                                const index = this.messageList.findIndex(item => item.id === data.id)
+                                if (index > -1) {
+                                    this.messageList.splice(index, 1, data)
+                                } else {
+                                    this.messageList.push(data)
+                                }
+                            })
+                        )
                 }
                 this.id = ''
-                this.text = ''*/
+                this.text = ''
             }
         }
     }

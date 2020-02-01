@@ -2,7 +2,6 @@
     <v-layout align-space-around justify-start column>
         <message-input :messageList="messageList" :messageAttr="message"/>
         <message-item v-for="msg in sortedMessages"
-                      style="margin-top: 10px;"
                       :msg="msg"
                       :messages="messageList"
                       :deleteMessage="deleteMessage"
@@ -14,6 +13,7 @@
 <script>
     import MessageItem from 'components/messages/MessageItem.vue'
     import MessageInput from 'components/messages/MessageInput.vue'
+    import MessagesApi from 'api/messages'
 
     export default {
         props: ['messageList'],
@@ -35,7 +35,7 @@
                 this.message = message
             },
             deleteMessage(message) {
-                this.$resource('http://localhost:9000/message{/id}').remove({id: message.id})
+                MessagesApi.remove(message.id)
                     .then(result => {
                         if (result.ok) {
                             this.messageList.splice(this.messageList.indexOf(message), 1)
