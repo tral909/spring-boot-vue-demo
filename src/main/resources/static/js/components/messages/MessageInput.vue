@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import messagesApi from 'api/messages'
+    import MessagesApi from 'api/messages'
 
     export default {
         props: ['messageList', 'messageAttr'],
@@ -31,14 +31,14 @@
                 if (this.text.trim() == '') return // TODO заменить на валидацию
                 const message = { id: this.id, text: this.text }
                 if (this.id) {
-                    messagesApi.update(message)
+                    MessagesApi.update(message)
                         .then(result => result.json()
                             .then(data => {
                                 const index = this.messageList.findIndex(item => item.id === data.id)
                                 this.messageList.splice(index, 1, data)
                             }))
                 } else {
-                    messagesApi.add(message)
+                    MessagesApi.add(message)
                         .then(result => result.json()
                             .then(data => {
                                 const index = this.messageList.findIndex(item => item.id === data.id)
