@@ -14,6 +14,7 @@
 
 <script>
     import { mapActions } from 'vuex'
+
     export default {
         props: ['msg', 'editMessage'],
         methods: {

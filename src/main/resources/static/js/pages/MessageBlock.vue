@@ -1,11 +1,13 @@
 <template>
-    <v-layout align-space-around justify-start column>
-        <message-input :messageAttr="message"/>
-        <message-item v-for="msg in sortedMessages"
-                      :msg="msg"
-                      :editMessage="editMessage"/>
-        </message-item>
-    </v-layout>
+    <v-container>
+        <v-layout align-space-around justify-start column>
+            <message-input :messageAttr="message"/>
+            <message-item v-for="msg in sortedMessages"
+                          :msg="msg"
+                          :editMessage="editMessage"/>
+            </message-item>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
@@ -29,6 +31,7 @@
             }
         }
     }
+
 
 </script>
 

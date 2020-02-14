@@ -27,10 +27,22 @@ module.exports = {
           }
         }
       },
+      // это будет применяться к файлам `.js`
+      // А ТАКЖЕ к секциям `<script>` внутри файлов `.vue`
       {
         test: /\.vue$/,
         loader: 'vue-loader'
       },
+      // это будет применяться к файлам `.css`
+      // А ТАКЖЕ к секциям `<style>` внутри файлов `.vue`
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      },
+      // без этого будет ошибка с подгрузкой стилей, но это не точно
       {
         test: /\.s(c|a)ss$/,
         use: [
@@ -43,9 +55,9 @@ module.exports = {
               implementation: require('sass'),
               fiber: require('fibers'),
               indentedSyntax: true // optional
-             },
-             // Requires sass-loader@^8.0.0
-             options: {
+            },
+            // Requires sass-loader@^8.0.0
+            options: {
               implementation: require('sass'),
               sassOptions: {
                 fiber: require('fibers'),
