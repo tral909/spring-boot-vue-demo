@@ -14,13 +14,14 @@
                 <a href="/login">Google</a>
             </v-container>
             <v-container v-if="profile">
-                <message-block :messageList="messages"/>
+                <message-block />
             </v-container>
         </v-content>
     </v-app>
 </template>
 
 <script>
+    import { mapState, mapMutations } from 'vuex'
     import MessageBlock from 'components/messages/MessageBlock.vue'
     import { addHandler, disconnect } from 'util/ws'
 
@@ -28,28 +29,26 @@
         components: {
             MessageBlock
         },
-        data() {
-            return {
-                messages: frontendData.messages,
-                profile: frontendData.profile
+        computed: mapState(['profile']),
+        methods: {
+            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+            wsDisconnect() {
+                disconnect()
             }
         },
         created() {
             addHandler(data => {
             if (data.objectType === 'MESSAGE') {
-                const index = this.messages.findIndex(item => item.id === data.body.id)
                 switch(data.eventType) {
                     case 'CREATE':
+                        this.addMessageMutation(data.body)
+                        break
                     case 'UPDATE':
-                        if (index > -1) {
-                            this.messages.splice(index, 1, data.body)
-                        } else {
-                            this.message.push(data.body)
-                        }
-                        break;
+                        this.updateMessageMutation(data.body)
+                        break
                     case 'REMOVE':
-                        this.messages.splice(index, 1)
-                        break;
+                        this.removeMessageMutation(data.body)
+                        break
                     default:
                         console.log(`Looks like the event type is unknown ${data.eventType}`)
                 }
@@ -57,15 +56,8 @@
                 console.log(`Looks like the object type is unknown ${data.objectType}`)
             }
             })
-        },
-        methods: {
-            wsDisconnect() {
-                disconnect()
-            }
         }
     }
-
-
 </script>
 
 <style>
